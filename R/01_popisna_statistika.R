@@ -46,10 +46,17 @@ dta_rok[, `:=`(tyden = frollmean(x = value,
 dta_rok_m <- melt(data = dta_rok,
                   id.vars = 1)
 
+# regrese ---------------------------
+
 regr <- data.table(x = c(NA, dta_rok$value),
                    y = c(dta_rok$value, NA))
 fit <- lm(formula = y ~ x,
           data = regr)
+
+out <- predict(object = fit,
+               newdata = data.frame(x = c(1, 2.5, 8)))
+out
+
 eq <- substitute(italic(y) == a %.% italic(x) + b*";  "~~italic(r)^2~"="~r2, 
                  list(b = format(x = unname(obj = coef(fit)[1]), 
                                  digits = 2),
@@ -58,6 +65,8 @@ eq <- substitute(italic(y) == a %.% italic(x) + b*";  "~~italic(r)^2~"="~r2,
                       r2 = format(x = summary(object = fit)$r.squared, 
                                   digits = 3)))
 eq <- as.character(x = as.expression(x = eq))
+
+# autokorelace ---------------------------
 
 acf_e <- acf(x = dta_rok$value,
              plot = FALSE)
@@ -104,6 +113,16 @@ e <- ecdf(x = dta_rok$value)
 e(v = 10)
 
 1 - e(v = 10)
+
+p <- .1
+
+## jaka hodnota byla prekrocena v 90% pripadu?
+quantile(x = dta_rok$value, 
+         probs = p)
+
+## jaka hodnota nebyla dosazena v 10% pripadu?
+quantile(x = dta_rok$value, 
+         probs = 1 - p)
 
 # vizual ---------------------------
 

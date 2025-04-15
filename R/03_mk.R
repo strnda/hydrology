@@ -34,9 +34,9 @@ ggplot() +
 
 # MK ---------------------------
 
-fit <- nls(q ~ a * (h)^b, 
+fit <- nls(q ~ a * (b)^h, 
            data = dta,
-           start = list(a = .1, 
+           start = list(a = 50, 
                         b = 1),
            control = nls.control(maxiter = 2000))
 
