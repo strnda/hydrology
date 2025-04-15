@@ -25,7 +25,8 @@ unzip(zipfile = "./data/proj_4/data_GIS.zip",
 dta_stations <- st_read(dsn = "./data/proj_4/stations.shp")
 
 ggplot() +
-  geom_sf(data = dta_stations) +
+  geom_sf(data = dta_stations,
+          colour = "red4") +
   theme_light()
 
 ggplot() +
@@ -63,6 +64,7 @@ names(x = station_dist) <- nms_ids[dta_stations$stanice]
 
 station_dist[, station := as.factor(x = nms_ids[dta_stations$stanice])]
 
+station_dist
 
 
 
